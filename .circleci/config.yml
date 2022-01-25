@@ -1,0 +1,132 @@
+
+version: 2.1
+jobs:
+    build:
+      docker:
+        - image: cimg/base:2021.10
+      steps:
+        - checkout
+        - setup_remote_docker:
+            version: 20.10.7
+        - run:
+            name: Displaying cache key
+            command: echo $(find ./src -type f -exec md5sum {} \; | md5sum | cut -d' ' -f1)  > CACHE_KEY1
+        - restore_cache:
+            keys:
+              - image-tgz-{{ checksum "Dockerfile" }}-{{ checksum "CACHE_KEY1" }}
+        - run:
+            name: Loading Docker image and removing old archive
+            command: |
+              docker load -i track-scraper.tar.gz || true
+              rm -rf track-scraper.tar.gz || true
+        - run:
+            name: Building application Docker image
+            command: |
+                docker-compose -f docker-compose.yml build track-scraper
+        - run:
+            name: Saving Docker image in cache
+            command: |
+              docker save track-scraper:ci | gzip > track-scraper.tar.gz
+        - save_cache:
+            key: image-tgz-{{ checksum "Dockerfile" }}-{{ checksum "CACHE_KEY1" }}
+            paths:
+              - "track-scraper.tar.gz"
+
+    process:
+      docker:
+        - image: cimg/base:2021.10
+      steps:
+        - checkout
+        - run:
+            name: Retrieving current and previous pipeline number
+            command: |
+              expr << pipeline.number >> - 1 > previous_pipeline
+              expr << pipeline.number >> > current_pipeline
+        - setup_remote_docker:
+            version: 20.10.7
+        - run:
+            name: Setting up cache key
+            command : echo $(find ./src -type f -exec md5sum {} \; | md5sum | cut -d' ' -f1)  > CACHE_KEY1
+        - restore_cache:
+            name: Restoring Docker image from cache
+            key: image-tgz-{{ checksum "Dockerfile" }}-{{ checksum "CACHE_KEY1" }}
+        - run:
+            name: Loading Docker image
+            command: |
+              docker load -i track-scraper.tar.gz || true
+        - restore_cache:
+            name: Restoring previous archived tracts from cache
+            key: archived-tracts-{{ .Branch }}-{{ checksum "previous_pipeline" }}
+        - restore_cache:
+            name: Restoring previous downloaded tracts from cache
+            key: downloaded-tracts-{{ .Branch }}-{{ checksum "previous_pipeline" }}
+        - run:
+            name: Putting all retrieved tracts in archive directory
+            command: |
+                unzip archived-tracts.zip || mkdir -p archives || true
+                unzip downloaded-tracts.zip || mkdir -p archives || true
+                chmod -R 777 archives
+        - run:
+            name: Putting archive directory in Docker archive volume
+            command: |
+                docker-compose -f docker-compose.yml -p ci up --no-start track-scraper
+                docker cp ./downloads/. ci_track-scraper_1:/home/bercy/track-scraper/archives/
+                docker cp ./archives/. ci_track-scraper_1:/home/bercy/track-scraper/archives/
+                docker-compose -f docker-compose.yml -p ci run --rm --entrypoint /bin/bash track-scraper -c "ls /home/bercy/track-scraper/archives"
+        - run:
+            name: Retrieving archived tracts from Docker archive volume
+            command: |
+                rm -rf archives/ || true
+                docker cp ci_track-scraper_1:/home/bercy/track-scraper/archives/. ./archives/
+                rm -rf archived-tracts.zip || true
+                zip -r archived-tracts.zip archives
+        - store_artifacts:
+            name: Storing archived tracts in artifact
+            path: ./archived-tracts.zip
+            destination: archived-tracts.zip
+        - save_cache:
+            name: Saving archived tracts in cache
+            key: archived-tracts-{{ .Branch }}-{{ checksum "current_pipeline" }}
+            paths:
+              - "archived-tracts.zip"
+        - persist_to_workspace:
+            name: Persiting archived tracts
+            root: ./
+            paths:
+              - archived-tracts.zip
+        - run:
+            name: Downloading new tracts
+            command: |
+                set -eo pipefail
+                docker-compose -f docker-compose.yml -p ci up --exit-code-from track-scraper
+        - run:
+            name: Retrieving downloaded tracts
+            command: |
+                rm -rf downloads/ || true
+                docker cp ci_track-scraper_1:/home/bercy/track-scraper/downloads/. ./downloads/
+                rm -rf downloaded-tracts.zip || true
+                zip -r downloaded-tracts.zip downloads
+        - store_artifacts:
+            name: Storing downloaded tracts in artifact
+            path: ./downloaded-tracts.zip
+            destination: downloaded-tracts.zip
+        - save_cache:
+            name: Saving downloaded tracts in cache
+            key: downloaded-tracts-{{ .Branch }}-{{ checksum "current_pipeline" }}
+            paths:
+              - "downloaded-tracts.zip"
+        - persist_to_workspace:
+            name: Persiting downloaded tracts
+            root: ./
+            paths:
+              - downloaded-tracts.zip
+
+
+workflows:
+  version: 2.1
+  main:
+    jobs:
+      - build
+      - process:
+          requires:
+            - build

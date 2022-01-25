@@ -1,0 +1,15 @@
+version: '3.9'
+
+services:
+  track-scraper:
+    image: track-scraper:ci
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - track-scraper-downloads:/home/bercy/track-scraper/downloads
+      - track-scraper-archives:/home/bercy/track-scraper/archives
+
+volumes:
+  track-scraper-downloads:
+  track-scraper-archives:
