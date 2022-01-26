@@ -47,6 +47,35 @@ You can also deployed the application using ***Docker*** by simply running the c
 docker-compose up
 ```
 
+# Settings
+
+The application can be configured via some variables available in the *settings.py* file located in the directory :
+
+```
+src/scraper/
+```
+
+The application can scrap articles and files from months back. This number of months can be configured using the *MONTHS_TO_SCRAP* variable.
+```
+MONTHS_TO_SCRAP = 1
+```
+
+The downloaded content can be archived during a certain period of time (expressed in months) which can be set in the MONTHS_TO_ARCHIVE variable.
+
+```
+MONTHS_TO_ARCHIVE = 3
+```
+
+In addition to scraping some HTML content, the application can also download some files which extensions can be filtered in the *EXT_TO_SCRAP* variable.
+
+```
+EXT_TO_SCRAP = [".pdf", ".doc", ".docx"]
+```
+
+
+
+
+
 # Results
 Depending on the number of websites to scrap, the process should not even take a minute.
 
