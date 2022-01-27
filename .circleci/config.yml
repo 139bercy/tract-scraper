@@ -70,8 +70,8 @@ jobs:
             name: Putting archive directory in Docker archive volume
             command: |
                 docker-compose -f docker-compose.yml -p ci up --no-start track-scraper
-                docker cp ./downloads/. ci_track-scraper_1:/home/bercy/track-scraper/archives/
-                docker cp ./archives/. ci_track-scraper_1:/home/bercy/track-scraper/archives/
+                docker cp ./downloads/. ci_track-scraper_1:/home/bercy/track-scraper/archives/ || true
+                docker cp ./archives/. ci_track-scraper_1:/home/bercy/track-scraper/archives/ || true
                 docker-compose -f docker-compose.yml -p ci run --rm --entrypoint /bin/bash track-scraper -c "ls /home/bercy/track-scraper/archives"
         - run:
             name: Retrieving archived tracts from Docker archive volume
