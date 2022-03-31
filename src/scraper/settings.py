@@ -6,8 +6,8 @@ NEWSPIDER_MODULE = 'scraper.spiders'
 LOG_LEVEL = 'INFO'
 
 EXT_TO_SCRAP = [".pdf", ".doc", ".docx"]
-MONTHS_TO_SCRAP = 1
-MONTHS_TO_ARCHIVE = 3
+WEEKS_TO_SCRAP = 1
+WEEKS_TO_ARCHIVE = 3
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 
 FILES_STORE = None

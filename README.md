@@ -55,15 +55,15 @@ The application can be configured via some variables available in the *settings.
 src/scraper/
 ```
 
-The application can scrap articles and files from months back. This number of months can be configured using the *MONTHS_TO_SCRAP* variable.
+The application can scrap articles and files from weeks back. This number of weeks can be configured using the *WEEKS_TO_SCRAP* variable.
 ```
-MONTHS_TO_SCRAP = 1
+WEEKS_TO_SCRAP = 2
 ```
 
-The downloaded content can be archived during a certain period of time (expressed in months) which can be set in the MONTHS_TO_ARCHIVE variable.
+The downloaded content can be archived during a certain period of time (expressed in weeks) which can be set in the WEEKS_TO_ARCHIVE variable.
 
 ```
-MONTHS_TO_ARCHIVE = 3
+WEEKS_TO_ARCHIVE = 3
 ```
 
 In addition to scraping some HTML content, the application can also download some files which extensions can be filtered in the *EXT_TO_SCRAP* variable.

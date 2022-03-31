@@ -4,7 +4,7 @@ from dateutil.relativedelta import relativedelta
 from scrapy.spidermiddlewares.httperror import HttpError
 from twisted.internet.error import DNSLookupError
 from twisted.internet.error import TimeoutError
-from scraper.utils.fileUtils import to_html_filename, to_filename, in_archives
+from scraper.utils.fileUtils import to_html_filename, to_filename, in_downloads
 from scraper.utils.urlUtils import clean_url
 from urllib.parse import urljoin
 from scrapy.utils.project import get_project_settings
@@ -85,7 +85,7 @@ class BaseSpider(scrapy.Spider):
         
         file_name = to_html_filename(self.name, article_date, article_title)
         file_content = article.get()
-        if not in_archives(file_name):
+        if not in_downloads(file_name):
             yield {
                     'type': 'html',
                     'file_name': file_name,
@@ -98,7 +98,7 @@ class BaseSpider(scrapy.Spider):
         file_relative_urls = article.css(self.article_file_selector).getall()
         for file_relative_url in file_relative_urls:
             file_name = to_filename(self.name, article_date, article_title, file_relative_url)
-            if file_relative_urls and not in_archives(file_name):
+            if file_relative_urls and not in_downloads(file_name):
                 yield {
                     'type': 'file',
                     'file_name': file_name,
@@ -108,10 +108,10 @@ class BaseSpider(scrapy.Spider):
     def parse(self, response):
         containers = response.css(self.article_selector_in_list)
         article_date = date.today()
-        min_date = article_date - relativedelta(months=settings.get('MONTHS_TO_SCRAP'))
+        min_date = article_date - relativedelta(weeks=settings.get('WEEKS_TO_SCRAP'))
         for container in containers:
             article_date = self.parse_article_date(container)
-            if article_date is None or article_date < min_date:
+            if article_date is None or article_date <= min_date:
                 continue
             article_title = container.css(self.article_title_selector_in_list).get()
             article_meta = {
@@ -122,7 +122,7 @@ class BaseSpider(scrapy.Spider):
             if self.article_link_selector_in_list is None:
                 file_name = to_html_filename(self.name, article_date, article_title)
                 file_content = container.get()
-                if not in_archives(file_name):
+                if not in_downloads(file_name):
                     yield {
                         'type': 'html',
                         'file_name': file_name,
@@ -135,7 +135,7 @@ class BaseSpider(scrapy.Spider):
                 file_relative_urls = container.css(self.article_file_selector).getall()
                 for file_relative_url in file_relative_urls:
                     file_name = to_filename(self.name, article_date, article_title, file_relative_url)
-                    if file_relative_urls and not in_archives(file_name):
+                    if file_relative_urls and not in_downloads(file_name):
                         yield {
                             'type': 'file',
                             'file_name': file_name,

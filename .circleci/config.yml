@@ -72,12 +72,12 @@ jobs:
                 docker-compose -f docker-compose.yml -p ci up --no-start track-scraper
                 docker cp ./downloads/. ci_track-scraper_1:/home/bercy/track-scraper/archives/ || true
                 docker cp ./archives/. ci_track-scraper_1:/home/bercy/track-scraper/archives/ || true
-                docker-compose -f docker-compose.yml -p ci run --rm --entrypoint /bin/bash track-scraper -c "ls /home/bercy/track-scraper/archives"
+                docker-compose -f docker-compose.yml -p ci run --rm --entrypoint /bin/bash track-scraper -c "ls /home/bercy/track-scraper/archives" || true
         - run:
             name: Retrieving archived tracts from Docker archive volume
             command: |
                 rm -rf archives/ || true
-                docker cp ci_track-scraper_1:/home/bercy/track-scraper/archives/. ./archives/
+                docker cp ci_track-scraper_1:/home/bercy/track-scraper/archives/. ./archives/ || true
                 rm -rf archived-tracts.zip || true
                 zip -r archived-tracts.zip archives
         - store_artifacts:
@@ -121,6 +121,20 @@ jobs:
             paths:
               - downloaded-tracts.zip
 
+    submit:
+      docker:
+        - image: alpine:3.14
+      steps:
+        - checkout
+        - attach_workspace:
+            at: ./
+        - run:
+            name: Submit downloaded tracks to Sofie
+            no_output_timeout: 30m
+            command: |
+              chmod 777 ./scripts/submit-to-sofie.sh
+              apk add --no-cache curl jq coreutils bash
+              ./scripts/submit-to-sofie.sh downloaded-tracts.zip
 
 workflows:
   version: 2.1
@@ -130,3 +144,6 @@ workflows:
       - process:
           requires:
             - build
+      - submit:
+          requires:
+            - process

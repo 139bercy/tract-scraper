@@ -1,6 +1,7 @@
 from scrapy import spiderloader    
 from scrapy.utils.project import get_project_settings
-from scraper.utils.fileUtils import purge_archives
+from scraper.utils.fileUtils import purge_archives, move_from_archives_to_downloads
+
 from scrapy.crawler import CrawlerProcess
 import locale
 import logging
@@ -10,6 +11,7 @@ locale.setlocale(locale.LC_ALL, 'fr_FR.UTF-8')
 
 def main():
     purge_archives()
+    move_from_archives_to_downloads()
     settings = get_project_settings()
     process = CrawlerProcess(settings)
     spider_loader = spiderloader.SpiderLoader.from_settings(settings)
