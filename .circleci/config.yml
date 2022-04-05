@@ -147,3 +147,19 @@ workflows:
       - submit:
           requires:
             - process
+  daily-data:
+    jobs:
+      - build
+      - process:
+          requires:
+            - build
+      - submit:
+          requires:
+            - process
+    triggers:
+      - schedule:
+          cron: 00 13 * * 1,2,3,4,5
+          filters:
+            branches:
+              only:
+                - master
