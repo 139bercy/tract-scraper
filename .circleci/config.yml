@@ -158,7 +158,7 @@ workflows:
             - process
     triggers:
       - schedule:
-          cron: 30 13 * * 1,2,3,4,5
+          cron: 30 12 * * 1,2,3,4,5
           filters:
             branches:
               only:
