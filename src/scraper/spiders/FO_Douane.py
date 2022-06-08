@@ -1,5 +1,6 @@
 from scraper.spiders.BaseSpider import BaseSpider
 
+
 class FO_Douane(BaseSpider):
     name = "FO_Douane"
     
@@ -17,4 +18,3 @@ class FO_Douane(BaseSpider):
     start_urls = [
         'http://fodouanes.fr/actualites.html'
     ]
-

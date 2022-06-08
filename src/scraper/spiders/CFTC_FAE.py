@@ -1,5 +1,6 @@
 from scraper.spiders.BaseSpider import BaseSpider
 
+
 class CFTC_FAE(BaseSpider):
     name = "CFTC_FAE"
     
@@ -18,4 +19,3 @@ class CFTC_FAE(BaseSpider):
     start_urls = [
         'http://www.cftc-fae.fr'
     ]
-

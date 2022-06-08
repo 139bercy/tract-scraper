@@ -1,5 +1,6 @@
 from scraper.spiders.BaseSpider import BaseSpider
 
+
 class CFTC_DGFIP(BaseSpider):
     name = "CFTC_DGFIP"
     
@@ -17,4 +18,3 @@ class CFTC_DGFIP(BaseSpider):
     start_urls = [
         'https://www.cftc-dgfip.fr'
     ]
-

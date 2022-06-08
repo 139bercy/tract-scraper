@@ -1,5 +1,6 @@
 from scraper.spiders.BaseSpider import BaseSpider
 
+
 class CGT_CCRF(BaseSpider):
     name = "CGT_CCRF"
     

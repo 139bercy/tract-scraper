@@ -1,5 +1,6 @@
 from scraper.spiders.BaseSpider import BaseSpider
 
+
 class CFTC_Douane(BaseSpider):
     name = "CFTC_Douane"
     
@@ -17,4 +18,3 @@ class CFTC_Douane(BaseSpider):
     start_urls = [
         'http://www.cftc-douanes.fr/category/actualites'
     ]
-

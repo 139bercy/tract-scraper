@@ -1,5 +1,6 @@
 from scraper.spiders.BaseSpider import BaseSpider
 
+
 class CGT_FonctionPublique(BaseSpider):
     name = "CGT_FonctionPublique"
     
@@ -21,4 +22,3 @@ class CGT_FonctionPublique(BaseSpider):
     start_urls = [
         'http://ufsecgt.fr/spip.php?rubrique756'
     ]
-

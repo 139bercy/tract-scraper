@@ -11,6 +11,7 @@ from scrapy.utils.project import get_project_settings
 
 settings = get_project_settings()
 
+
 class BaseSpider(scrapy.Spider):
     
     name = None
@@ -159,5 +160,3 @@ class BaseSpider(scrapy.Spider):
                 next_url = response.urljoin(self.page_selector.format(offset = self.page_offset))
             if next_url is not None:
                 yield scrapy.Request(url=next_url, callback=self.parse, errback=self.handle_error)
-        
-        

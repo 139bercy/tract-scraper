@@ -1,5 +1,6 @@
 from scraper.spiders.BaseSpider import BaseSpider
 
+
 class UNSA_INSEE(BaseSpider):
     name = "UNSA_INSEE"
     
@@ -17,4 +18,3 @@ class UNSA_INSEE(BaseSpider):
     start_urls = [
         'https://uga-insee.fr'
     ]
-

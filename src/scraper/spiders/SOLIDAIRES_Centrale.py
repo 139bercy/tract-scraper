@@ -1,5 +1,6 @@
 from scraper.spiders.BaseSpider import BaseSpider
 
+
 class SOLIDAIRE_Centrale(BaseSpider):
     name = "SOLIDAIRE_Centrale"
     
@@ -17,4 +18,3 @@ class SOLIDAIRE_Centrale(BaseSpider):
     start_urls = [
         'http://sudcm.org'
     ]
-

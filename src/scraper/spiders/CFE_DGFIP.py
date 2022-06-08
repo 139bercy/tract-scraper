@@ -1,5 +1,6 @@
 from scraper.spiders.BaseSpider import BaseSpider
 
+
 class CFE_DGFIP(BaseSpider):
     name = "CFE_DGFIP"
     
@@ -17,4 +18,3 @@ class CFE_DGFIP(BaseSpider):
     start_urls = [
         'http://www.cgc-dgfip.info/category/actualites'
     ]
-

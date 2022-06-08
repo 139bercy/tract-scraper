@@ -1,5 +1,6 @@
 from scraper.spiders.BaseSpider import BaseSpider
 
+
 class CFDT_FonctionPublique(BaseSpider):
     name = "CFDT_FonctionPublique"
     
@@ -18,4 +19,3 @@ class CFDT_FonctionPublique(BaseSpider):
     start_urls = [
         "https://uffa.cfdt.fr/portail/uffa/derniers-communiques-de-presse-et-publications-prod_159789"
     ]
-

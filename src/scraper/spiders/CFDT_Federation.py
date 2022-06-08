@@ -1,5 +1,6 @@
 from scraper.spiders.BaseSpider import BaseSpider
 
+
 class CFDT_Federation(BaseSpider):
     name = "CFDT_Federation"
     
@@ -24,4 +25,3 @@ class CFDT_Federation(BaseSpider):
         'https://finances.cfdt.fr/portail/finance/actualites-federales/insee/actualite-srv1_256743',
         'https://finances.cfdt.fr/portail/finance/actualites-federales/a-la-une-recette_13295'
     ]
-

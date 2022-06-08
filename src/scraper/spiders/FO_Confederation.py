@@ -1,5 +1,6 @@
 from scraper.spiders.BaseSpider import BaseSpider
 
+
 class FO_Confederartion(BaseSpider):
     name = "FO_Confederartion"
     
@@ -21,4 +22,3 @@ class FO_Confederartion(BaseSpider):
     start_urls = [
         'https://www.force-ouvriere.fr/-la-force-de-l-information-'
     ]
-

@@ -1,5 +1,6 @@
 from scraper.spiders.BaseSpider import BaseSpider
 
+
 class CGT_Douane(BaseSpider):
     name = "CGT_Douane"
     
@@ -21,4 +22,3 @@ class CGT_Douane(BaseSpider):
     start_urls = [
         'https://www.cgtdouanes.fr/'
     ]
-

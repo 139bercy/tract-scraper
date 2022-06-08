@@ -1,5 +1,6 @@
 from scraper.spiders.BaseSpider import BaseSpider
 
+
 class FSU_FonctionPublique(BaseSpider):
     name = "FSU_FonctionPublique"
     
@@ -17,4 +18,3 @@ class FSU_FonctionPublique(BaseSpider):
     start_urls = [
         'https://fsu.fr/category/nos-actions/communiques'
     ]
-

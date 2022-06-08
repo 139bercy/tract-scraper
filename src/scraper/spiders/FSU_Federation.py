@@ -1,5 +1,6 @@
 from scraper.spiders.BaseSpider import BaseSpider
 
+
 class FSU_Federation(BaseSpider):
     name = "FSU_Federation"
     
@@ -17,4 +18,3 @@ class FSU_Federation(BaseSpider):
     start_urls = [
         'https://www.fsu-finances.fr/category/directions/'
     ]
-

@@ -1,5 +1,6 @@
 from scraper.spiders.BaseSpider import BaseSpider
 
+
 class FO_Federation(BaseSpider):
     name = "FO_Federation"
     
@@ -17,4 +18,3 @@ class FO_Federation(BaseSpider):
     start_urls = [
         'https://financesfo.fr/toutes-les-actualites'
     ]
-

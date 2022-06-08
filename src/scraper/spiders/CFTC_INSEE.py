@@ -1,5 +1,6 @@
 from scraper.spiders.BaseSpider import BaseSpider
 
+
 class CFTC_INSEE(BaseSpider):
     name = "CFTC_INSEE"
     
@@ -17,4 +18,3 @@ class CFTC_INSEE(BaseSpider):
     start_urls = [
         'http://www.cftc-insee.fr'
     ]
-
