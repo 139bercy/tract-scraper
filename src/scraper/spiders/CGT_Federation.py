@@ -1,5 +1,6 @@
 from scraper.spiders.BaseSpider import BaseSpider
 
+
 class CGT_Federation(BaseSpider):
     name = "CGT_Federation"
     
@@ -34,4 +35,3 @@ class CGT_Federation(BaseSpider):
     start_urls = [
         'https://www.cgtfinances.fr/actu'
     ]
-

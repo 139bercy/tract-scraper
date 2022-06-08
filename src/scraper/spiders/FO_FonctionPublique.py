@@ -1,5 +1,6 @@
 from scraper.spiders.BaseSpider import BaseSpider
 
+
 class FO_FonctionPublique(BaseSpider):
     name = "FO_FonctionPublique"
     
@@ -21,4 +22,3 @@ class FO_FonctionPublique(BaseSpider):
     start_urls = [
         'https://www.force-ouvriere.fr/Fonction-publique'
     ]
-

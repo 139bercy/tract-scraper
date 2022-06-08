@@ -1,5 +1,6 @@
 from scraper.spiders.BaseSpider import BaseSpider
 
+
 class FO_DDI(BaseSpider):
     name = "FO_DDI"
     
@@ -21,4 +22,3 @@ class FO_DDI(BaseSpider):
     start_urls = [
         'https://www.force-ouvriere.fr/ddi-1635'
     ]
-

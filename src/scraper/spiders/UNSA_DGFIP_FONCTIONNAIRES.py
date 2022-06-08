@@ -1,5 +1,6 @@
 from scraper.spiders.BaseSpider import BaseSpider
 
+
 class UNSA_DGFIP_FONCTIONNAIRES(BaseSpider):
     name = "UNSA_DGFIP_FONCTIONNAIRES"
     
@@ -18,4 +19,3 @@ class UNSA_DGFIP_FONCTIONNAIRES(BaseSpider):
     start_urls = [
         'http://unsadgfip.fr/actualites-fonctionnaires'
     ]
-

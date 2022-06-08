@@ -1,5 +1,6 @@
 from scraper.spiders.BaseSpider import BaseSpider
 
+
 class CGT_INSEE(BaseSpider):
     name = "CGT_INSEE"
     
@@ -38,4 +39,3 @@ class CGT_INSEE(BaseSpider):
     start_urls = [
         'https://www.cgtinsee.org/'
     ]
-

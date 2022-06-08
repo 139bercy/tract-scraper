@@ -1,5 +1,6 @@
 from scraper.spiders.BaseSpider import BaseSpider
 
+
 class CFDT_FonctionPubliqueAccueil(BaseSpider):
     name = "CFDT_FonctionPubliqueAccueil"
     

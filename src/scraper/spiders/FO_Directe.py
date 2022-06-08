@@ -1,5 +1,6 @@
 from scraper.spiders.BaseSpider import BaseSpider
 
+
 class FO_Directe(BaseSpider):
     name = "FO_Directe"
     
@@ -18,4 +19,3 @@ class FO_Directe(BaseSpider):
     start_urls = [
         'https://www.force-ouvriere.fr/+-DIRECTTE-+'
     ]
-

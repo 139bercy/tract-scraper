@@ -1,5 +1,6 @@
 from scraper.spiders.BaseSpider import BaseSpider
 
+
 class FO_DGFIP(BaseSpider):
     name = "FO_DGFIP"
     
@@ -17,4 +18,3 @@ class FO_DGFIP(BaseSpider):
     start_urls = [
         'https://www.fo-dgfip.fr/'
     ]
-

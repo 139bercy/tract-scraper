@@ -1,5 +1,6 @@
 from scraper.spiders.BaseSpider import BaseSpider
 
+
 class FO_SPRIM(BaseSpider):
     name = "FO_SPRIM"
     
@@ -20,4 +21,3 @@ class FO_SPRIM(BaseSpider):
     start_urls = [
         'https://sprim-fo.org/blog/'
     ]
-

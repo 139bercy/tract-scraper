@@ -1,5 +1,6 @@
 from scraper.spiders.BaseSpider import BaseSpider
 
+
 class CFTC_Centrale(BaseSpider):
     name = "CFTC_Centrale"
     
@@ -17,4 +18,3 @@ class CFTC_Centrale(BaseSpider):
     start_urls = [
         'http://cftc-centrale-finances.fr'
     ]
-

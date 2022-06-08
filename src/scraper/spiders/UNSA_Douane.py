@@ -1,5 +1,6 @@
 from scraper.spiders.BaseSpider import BaseSpider
 
+
 class UNSA_Douane(BaseSpider):
     name = "UNSA_Douane"
     
@@ -17,4 +18,3 @@ class UNSA_Douane(BaseSpider):
     start_urls = [
         'http://www.unsadouanes.fr/index.php/fr/publications'
     ]
-

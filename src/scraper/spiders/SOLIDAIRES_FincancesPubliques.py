@@ -1,5 +1,6 @@
 from scraper.spiders.BaseSpider import BaseSpider
 
+
 class SOLIDAIRE_FinancesPubliques(BaseSpider):
     name = "SOLIDAIRE_FinancesPubliques"
     
@@ -38,4 +39,3 @@ class SOLIDAIRE_FinancesPubliques(BaseSpider):
     start_urls = [
         'https://sections.solidairesfinancespubliques.info/rss/rss.xml'
     ]
-

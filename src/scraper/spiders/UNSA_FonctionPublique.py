@@ -1,5 +1,6 @@
 from scraper.spiders.BaseSpider import BaseSpider
 
+
 class UNSA_FonctionPublique(BaseSpider):
     name = "UNSA_FonctionPublique"
     
@@ -17,4 +18,3 @@ class UNSA_FonctionPublique(BaseSpider):
     start_urls = [
         'https://www.unsa-fp.org'
     ]
-
