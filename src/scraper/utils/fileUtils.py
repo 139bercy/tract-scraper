@@ -8,6 +8,7 @@ import shutil
 
 settings = get_project_settings()
 
+
 def writeFile(filename, content):
     if content is None:
         return
@@ -21,11 +22,13 @@ def writeFile(filename, content):
             file.write(content)
             file.close()
 
+
 def to_html_filename(site, date, title):
     date_str = slugify(date.strftime("%d-%m-%y"))
     title_str = slugify(title)
 
     return f'{date_str}/{site}__{title_str}.html'
+
 
 def to_filename(site, date, title, file):
     date_str = slugify(date.strftime("%d-%m-%y"))
@@ -34,11 +37,13 @@ def to_filename(site, date, title, file):
 
     return f'{date_str}/{site}__{title_str}__{file_str}'
 
+
 def in_downloads(filename): 
     directory = settings.get('FILES_STORE')
     filepath = os.path.join(directory, filename)
 
     return os.path.exists(filepath)
+
 
 def purge_archives():
     directory_path = os.path.abspath(settings.get('FILES_ARCHIVE'))
@@ -52,6 +57,7 @@ def purge_archives():
             for file in folder_files:
                 os.remove(os.path.join(folder_path, file))
             os.removedirs(folder_path)
+
 
 def move_from_archives_to_downloads():
     archive_directory_path = os.path.abspath(settings.get('FILES_ARCHIVE'))

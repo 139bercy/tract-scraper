@@ -9,6 +9,7 @@ import logging
 logger = logging.getLogger()
 locale.setlocale(locale.LC_ALL, 'fr_FR.UTF-8')
 
+
 def main():
     purge_archives()
     move_from_archives_to_downloads()
@@ -22,6 +23,7 @@ def main():
         process.crawl(spider_name)
     process.start()
     logger.info(f"Scrapping DONE!")
+
 
 if __name__ == "__main__":
     main()
