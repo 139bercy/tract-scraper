@@ -40,6 +40,14 @@ Execute the application:
 python3 src/main.py
 ```
 
+Or scrappe only one site:
+
+```
+python3 src/main.py -S UNSA_DGFIP
+```
+```
+python3 src/main.py --Spider UNSA_DGFIP
+```
 ## In a Docker environment
 
 You can also deployed the application using ***Docker*** by simply running the code line:
