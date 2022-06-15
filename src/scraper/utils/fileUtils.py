@@ -35,7 +35,10 @@ def to_filename(site, date, title, file):
     title_str = slugify(title)
     file_str = path_leaf(file)
 
-    return f'{date_str}/{site}__{title_str}__{file_str}'
+    filename = f'{site}__{title_str}__{file_str}'
+    if len(filename) > 250:
+        filename = filename[: len(filename) - 270]
+    return f'{date_str}/{filename}'
 
 
 def in_downloads(filename): 
