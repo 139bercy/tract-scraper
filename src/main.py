@@ -7,6 +7,7 @@ import locale
 import logging
 import argparse
 
+logging.getLogger('scrapy').propagate = False
 logger = logging.getLogger()
 locale.setlocale(locale.LC_ALL, 'fr_FR.UTF-8')
 
@@ -21,13 +22,13 @@ def main():
     move_from_archives_to_downloads()
     settings = get_project_settings()
     process = CrawlerProcess(settings)
-    spider_loader = spiderloader.SpiderLoader.from_settings(settings)
-    spiders = spider_loader.list()
-    logger.info(f'{len(spiders)} spiders found.')
     if args.Spider:
         logger.info(f'Registers {args.Spider} spider.')
         process.crawl(args.Spider)
     else:
+        spider_loader = spiderloader.SpiderLoader.from_settings(settings)
+        spiders = spider_loader.list()
+        logger.info(f'{len(spiders)} spiders found.')
         for spider_name in spider_loader.list():
             logger.info(f'Registers {spider_name} spider.')
             process.crawl(spider_name)
