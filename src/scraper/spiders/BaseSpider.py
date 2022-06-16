@@ -105,6 +105,7 @@ class BaseSpider(scrapy.Spider):
                     'file_name': file_name,
                     'file_url': response.urljoin(file_relative_url)
                 }
+        self.logger.info(file_name)
 
     def parse(self, response):
         containers = response.css(self.article_selector_in_list)
