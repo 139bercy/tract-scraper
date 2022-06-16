@@ -36,6 +36,7 @@ class BaseSpider(scrapy.Spider):
     start_urls = []
 
     def parse_article_date(self, container):
+        self.logger.info("Trying to parse date")
         date = None
         if isinstance(self.article_date_selector_in_list, list):
             date_parts = []
@@ -61,6 +62,7 @@ class BaseSpider(scrapy.Spider):
         return datetime.strptime(date_str, self.article_date_format_in_list).date()
 
     def parse_article_url_in_list(self, response, container):
+        self.logger.info("Parse article url")
         url = container.css(self.article_link_selector_in_list).get()
         return response.urljoin(str(url)).strip()
 
@@ -80,6 +82,7 @@ class BaseSpider(scrapy.Spider):
             self.logger.error('TimeoutError on %s', request.url)
 
     def parse_article(self, response):
+        self.logger.info("Parse article")
         article = response.css(self.article_html_selector)
         article_title = response.meta['article_title']
         article_date = response.meta['article_date']
@@ -108,10 +111,14 @@ class BaseSpider(scrapy.Spider):
         self.logger.info(file_name)
 
     def parse(self, response):
+        self.logger.info("Starting to parse")
         containers = response.css(self.article_selector_in_list)
         article_date = date.today()
         min_date = article_date - relativedelta(weeks=settings.get('WEEKS_TO_SCRAP'))
+        if not containers:
+            self.logger.warning("Aucun articles trouvé sur la page, mauvaise balise ?")
         for container in containers:
+            self.logger.info("container : " + container)
             article_date = self.parse_article_date(container)
             if article_date is None or article_date <= min_date:
                 continue
