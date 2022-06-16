@@ -12,9 +12,9 @@ class FGF_FO_Fonctionnaire(BaseSpider):
     article_html_selector = "#main"
     article_file_selector = "a::attr(href)"
 
-    page_index = 1
+    page_index = None
     page_selector = None
 
     start_urls = [
-        'http://www.fo-fonctionnaires.fr/idea/'
+        'http://www.fo-fonctionnaires.fr/idea'
     ]
