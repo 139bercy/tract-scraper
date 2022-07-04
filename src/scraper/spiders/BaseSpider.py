@@ -36,7 +36,7 @@ class BaseSpider(scrapy.Spider):
     start_urls = []
 
     def parse_article_date(self, container):
-        self.logger.info("Trying to parse date")
+        self.logger.info("Parse date")
         date = None
         if isinstance(self.article_date_selector_in_list, list):
             date_parts = []
@@ -118,11 +118,11 @@ class BaseSpider(scrapy.Spider):
         if not containers:
             self.logger.warning("Aucun articles trouvé sur la page, mauvaise balise ?")
         for container in containers:
-            self.logger.info("container : " + container)
             article_date = self.parse_article_date(container)
             if article_date is None or article_date <= min_date:
                 continue
             article_title = container.css(self.article_title_selector_in_list).get()
+            self.logger.info("titre article : " + article_title)
             article_meta = {
                 'article_title': article_title,
                 'article_date': article_date
