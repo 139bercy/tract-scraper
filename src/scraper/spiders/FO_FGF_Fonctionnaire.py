@@ -2,7 +2,7 @@ from scraper.spiders.BaseSpider import BaseSpider
 
 
 class FGF_FO_Fonctionnaire(BaseSpider):
-    name = "FGF_FO_Fonctionnaire"
+    name = "FO_FGF_Fonctionnaire"
 
     article_selector_in_list = "#ulIdea li"
     article_link_selector_in_list = ".objectList_title a::attr(href)"
