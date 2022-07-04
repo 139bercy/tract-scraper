@@ -116,7 +116,7 @@ class BaseSpider(scrapy.Spider):
         article_date = date.today()
         min_date = article_date - relativedelta(weeks=settings.get('WEEKS_TO_SCRAP'))
         if not containers:
-            self.logger.warning("Aucun articles trouvé sur la page, mauvaise balise ?")
+            self.logger.warning("No articles found on the page, wrong html selector ?")
         for container in containers:
             article_date = self.parse_article_date(container)
             if article_date is None or article_date <= min_date:
