@@ -5,9 +5,9 @@ class SOLIDAIRE_FinancesPubliques(BaseSpider):
     name = "SOLIDAIRE_FinancesPubliques"
     
     article_selector_in_list = "item"
-    article_link_selector_in_list = "link::text"
-    article_title_selector_in_list = "title::text"
-    article_date_selector_in_list = "pubDate::text"
+    article_link_selector_in_list = "link ::text"
+    article_title_selector_in_list = "title ::text"
+    article_date_selector_in_list = "pubDate ::text"
     article_date_format_in_list = "%a, %d %b %Y %H:%M:%S CET"
     article_date_term_in_list = {
         "Jan": "janv.",
@@ -31,7 +31,7 @@ class SOLIDAIRE_FinancesPubliques(BaseSpider):
         "Sun": "dim."
     }
     article_html_selector = ".item-page"
-    article_file_selector = "a::attr(href)"
+    article_file_selector = "a ::attr(href)"
 
     page_index = None
     page_selector = None
