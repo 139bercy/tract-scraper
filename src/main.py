@@ -26,7 +26,7 @@ def main():
         logger.info(f'Registers {args.Spider} spider.')
         process.crawl(args.Spider)
     else:
-        logger.info('Registers all spiders.')
+        logger.info('Registering all spiders...')
         spider_loader = spiderloader.SpiderLoader.from_settings(settings)
         spiders = spider_loader.list()
         logger.info(f'{len(spiders)} spiders found.')
