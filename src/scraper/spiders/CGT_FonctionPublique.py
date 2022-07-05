@@ -5,15 +5,15 @@ class CGT_FonctionPublique(BaseSpider):
     name = "CGT_FonctionPublique"
     
     article_selector_in_list = ".item"
-    article_link_selector_in_list = "h3 a::attr(href)"
-    article_title_selector_in_list = "h3 a::text"
-    article_date_selector_in_list = ".info-publi .published::text"
+    article_link_selector_in_list = "h3 a ::attr(href)"
+    article_title_selector_in_list = "h3 a ::text"
+    article_date_selector_in_list = ".info-publi .published ::text"
     article_date_format_in_list = "%A %d %B %Y"
     article_date_term_in_list = {
         "1er": "1"
     }
     article_html_selector = ".contenu-principal"
-    article_file_selector = 'a::attr(href)'
+    article_file_selector = 'a ::attr(href)'
 
     page_offset = 0
     page_limit = 10
