@@ -8,8 +8,11 @@ from scraper.utils.fileUtils import to_html_filename, to_filename, in_downloads
 from scraper.utils.urlUtils import clean_url
 from urllib.parse import urljoin
 from scrapy.utils.project import get_project_settings
+import logging
 
 settings = get_project_settings()
+
+logger = logging.getLogger(__name__)
 
 
 class BaseSpider(scrapy.Spider):
@@ -113,6 +116,8 @@ class BaseSpider(scrapy.Spider):
     def parse(self, response):
         self.logger.info("Starting to parse")
         containers = response.css(self.article_selector_in_list)
+        logger.info('Found %d articles in %s', len(containers), response.url)
+        missing_date = 0
         article_date = date.today()
         min_date = article_date - relativedelta(weeks=settings.get('WEEKS_TO_SCRAP'))
         if not containers:
@@ -120,6 +125,7 @@ class BaseSpider(scrapy.Spider):
         for container in containers:
             article_date = self.parse_article_date(container)
             if article_date is None or article_date <= min_date:
+                missing_date += 1
                 continue
             article_title = container.css(self.article_title_selector_in_list).get()
             self.logger.info("titre article : " + article_title)
@@ -139,6 +145,7 @@ class BaseSpider(scrapy.Spider):
                     }
 
                 if self.article_file_selector is None:
+                    logger.info('No file selector for %s', response.url)
                     return None
 
                 file_relative_urls = container.css(self.article_file_selector).getall()
@@ -153,6 +160,9 @@ class BaseSpider(scrapy.Spider):
             else:
                 article_url = self.parse_article_url_in_list(response, container)
                 yield scrapy.Request(url=article_url, callback=self.parse_article, errback=self.handle_error, meta=article_meta)
+
+        if missing_date > 0:
+            logger.info('%d articles not scraped because of date missing', missing_date)
 
         if article_date is not None and article_date > min_date:
             next_url = None
