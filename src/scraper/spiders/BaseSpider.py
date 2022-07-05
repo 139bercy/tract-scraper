@@ -72,15 +72,15 @@ class BaseSpider(scrapy.Spider):
 
         if failure.check(HttpError):
             response = failure.value.response
-            self.logger.error('HttpError on %s', response.url)
+            self.logger.error(f'HttpError on {response.url}')
 
         elif failure.check(DNSLookupError):
             request = failure.request
-            self.logger.error('DNSLookupError on %s', request.url)
+            self.logger.error(f'DNSLookupError on {request.url}')
 
         elif failure.check(TimeoutError):
             request = failure.request
-            self.logger.error('TimeoutError on %s', request.url)
+            self.logger.error(f'TimeoutError on {request.url}')
 
     def parse_article(self, response):
         article = response.css(self.article_html_selector)
@@ -112,7 +112,7 @@ class BaseSpider(scrapy.Spider):
 
     def parse(self, response):
         containers = response.css(self.article_selector_in_list)
-        logger.info('Found %d articles in %s', len(containers), response.url)
+        logger.info(f'{len(containers)} articles found in {response.url}')
         missing_date = 0
         article_date = date.today()
         min_date = article_date - relativedelta(weeks=settings.get('WEEKS_TO_SCRAP'))
@@ -138,7 +138,7 @@ class BaseSpider(scrapy.Spider):
                     }
 
                 if self.article_file_selector is None:
-                    logger.info('No file selector for %s', response.url)
+                    logger.info(f'No file selector for {response.url}')
                     return None
 
                 file_relative_urls = container.css(self.article_file_selector).getall()
@@ -152,10 +152,11 @@ class BaseSpider(scrapy.Spider):
                         }
             else:
                 article_url = self.parse_article_url_in_list(response, container)
-                yield scrapy.Request(url=article_url, callback=self.parse_article, errback=self.handle_error, meta=article_meta)
+                yield scrapy.Request(url=article_url, callback=self.parse_article, errback=self.handle_error,
+                                     meta=article_meta)
 
         if missing_date > 0:
-            logger.info('%d articles not scraped because of date missing', missing_date)
+            logger.info(f'{missing_date} articles not scrapped because the date missing')
 
         if article_date is not None and article_date > min_date:
             next_url = None
@@ -163,11 +164,11 @@ class BaseSpider(scrapy.Spider):
                 self.page_index += 1
                 if self.page_index >= 10:
                     return
-                next_url = urljoin(clean_url(response.url), self.page_selector.format(page = self.page_index))
+                next_url = urljoin(clean_url(response.url), self.page_selector.format(page=self.page_index))
             elif self.page_offset is not None:
                 self.page_offset += self.page_limit
                 if self.page_offset >= 100:
                     return
-                next_url = response.urljoin(self.page_selector.format(offset = self.page_offset))
+                next_url = response.urljoin(self.page_selector.format(offset=self.page_offset))
             if next_url is not None:
                 yield scrapy.Request(url=next_url, callback=self.parse, errback=self.handle_error)
