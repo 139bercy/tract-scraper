@@ -36,7 +36,14 @@ class BaseSpider(scrapy.Spider):
     start_urls = []
 
     def parse_article_date(self, container):
-        self.logger.info("Parse date")
+        """
+        Parse the article date from the container
+        try to extract the date base on the
+            article_date_selector_in_list,
+            article_date_format_in_list,
+            article_date_separator_in_list,
+            article_date_term_in_list
+        """
         date = None
         if isinstance(self.article_date_selector_in_list, list):
             date_parts = []
@@ -62,8 +69,8 @@ class BaseSpider(scrapy.Spider):
         return datetime.strptime(date_str, self.article_date_format_in_list).date()
 
     def parse_article_url_in_list(self, response, container):
-        self.logger.info("Parse article url")
         url = container.css(self.article_link_selector_in_list).get()
+        self.logger.info(f"Parsing article url {response.urljoin(str(url)).strip()}")
         return response.urljoin(str(url)).strip()
 
     def handle_error(self, failure):
@@ -82,13 +89,19 @@ class BaseSpider(scrapy.Spider):
             self.logger.error('TimeoutError on %s', request.url)
 
     def parse_article(self, response):
-        self.logger.info("Parse article")
+        """
+        Parse the article page,
+        Check if the article is already downloaded,
+        If not, get the article information, file_name and file_content
+        """
         article = response.css(self.article_html_selector)
         article_title = response.meta['article_title']
         article_date = response.meta['article_date']
         
         file_name = to_html_filename(self.name, article_date, article_title)
         file_content = article.get()
+
+        # Check if the file already exists to avoid scrapping it again
         if not in_downloads(file_name):
             yield {
                     'type': 'html',
@@ -96,9 +109,11 @@ class BaseSpider(scrapy.Spider):
                     'file_content': file_content
                 }
 
+        # check if there is a file selector for the article
         if self.article_file_selector is None:
             return None
 
+        # Get all files from the article
         file_relative_urls = article.css(self.article_file_selector).getall()
         for file_relative_url in file_relative_urls:
             file_name = to_filename(self.name, article_date, article_title, file_relative_url)
@@ -111,18 +126,19 @@ class BaseSpider(scrapy.Spider):
         self.logger.info(file_name)
 
     def parse(self, response):
-        self.logger.info("Starting to parse")
+        self.logger.info(f"Starting to parse {response.url}")
         containers = response.css(self.article_selector_in_list)
         article_date = date.today()
         min_date = article_date - relativedelta(weeks=settings.get('WEEKS_TO_SCRAP'))
         if not containers:
-            self.logger.warning("No articles found on the page, wrong html selector ?")
+            self.logger.warning(f"No articles found on the page {self.name}, wrong html selector ?")
         for container in containers:
             article_date = self.parse_article_date(container)
-            if article_date is None or article_date <= min_date:
+            if article_date is None or article_date < min_date:
+                self.logger.debug(f"Article date is {article_date}, min date to compare to is {min_date}, article : "
+                                  f"{container.css(self.article_title_selector_in_list).get()}")
                 continue
             article_title = container.css(self.article_title_selector_in_list).get()
-            self.logger.info("titre article : " + article_title)
             article_meta = {
                 'article_title': article_title,
                 'article_date': article_date
