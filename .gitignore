@@ -6,6 +6,8 @@ __pycache__/
 # C extensions
 *.so
 
+.idea/
+
 # Distribution / packaging
 .Python
 build/
@@ -131,3 +133,5 @@ dmypy.json
 archives/
 downloads/
 *.bak
+/*.ipynb
+/log.txt
