@@ -11,20 +11,20 @@ class CGT_Federation(BaseSpider):
         ".row .col-lg-2 span ::text",
         ".row .col-lg-2 span.d-block ::text"
     ]
-    article_date_format_in_list = "%d %b %Y"
+    article_date_format_in_list = "%d %m %Y"
     article_date_term_in_list = {
-        "jan": "janv.",
-        "fév": "févr.",
-        "mar": "mars",
-        "avr": "avr.",
-        "mai": "mai",
-        "jui": "juil.",
-        "aoû": "août",
-        "sep": "sept.",
-        "oct": "oct.",
-        "nov": "nov.",
-        "déc": "déc."
-    }
+        "jan": "01",
+        "fév": "02",
+        "mar": "03",
+        "avr": "04",
+        "mai": "05",
+        "jui": "06",
+        "aoû": "08",
+        "sep": "09",
+        "oct": "10",
+        "nov": "11",
+        "déc": "12"
+    }  # manque juillet juin = jui juillet = ???? confus
     article_html_selector = "article"
     article_file_selector = 'a ::attr(href)'
 

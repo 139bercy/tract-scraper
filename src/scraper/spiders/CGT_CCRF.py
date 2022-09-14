@@ -13,21 +13,21 @@ class CGT_CCRF(BaseSpider):
         ".date .year ::text"
     ]
     article_date_term_in_list = {
-        "janv": "janv.",
-        "févr": "févr.",
-        "mars": "mars",
-        "avri": "avr.",
-        "mai": "mai",
-        "juin": "juin",
-        "juil": "juil.",
-        "août": "août",
-        "sept": "sept.",
-        "octo": "oct.",
-        "nove": "nov.",
-        "déce": "déc.",
-        "1er": "1"
+        "janv": "01",
+        "févr": "02",
+        "mars": "03",
+        "avri": "04",
+        "mai": "05",
+        "juin": "06",
+        "juil": "07",
+        "août": "08",
+        "sept": "09",
+        "octo": "10",
+        "nove": "11",
+        "déce": "12",
+        "1er": "01"
     }
-    article_date_format_in_list = "%d %b %Y"
+    article_date_format_in_list = "%d %m %Y"
     article_html_selector = "article"
     article_file_selector = 'dl a ::attr(href)'
 

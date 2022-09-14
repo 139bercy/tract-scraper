@@ -8,28 +8,30 @@ class SOLIDAIRE_FinancesPubliques(BaseSpider):
     article_link_selector_in_list = "link ::text"
     article_title_selector_in_list = "title ::text"
     article_date_selector_in_list = "pubDate ::text"
-    article_date_format_in_list = "%a, %d %b %Y %H:%M:%S CET"
+    article_date_format_in_list = "%d %b %Y %H:%M:%S "
     article_date_term_in_list = {
-        "Jan": "janv.",
-        "Feb": "févr.",
+        "Jan": "janv",
+        "Feb": "févr",
         "Mar": "mars",
-        "Apr": "avr.",
+        "Apr": "avr",
         "May": "mai",
         "Jun": "juin",
-        "Jul": "juil.",
+        "Jul": "juil",
         "Aug": "août",
-        "Sep": "sept.",
-        "Oct": "oct.",
-        "Nov": "nov.",
-        "Dec": "déc.",
-        "Mon": "lun.",
-        "Tue": "mar.",
-        "Wed": "mer.",
-        "Thu": "jeu.",
-        "Fri": "ven.",
-        "Sat": "sam.",
-        "Sun": "dim."
+        "Sep": "sept",
+        "Oct": "oct",
+        "Nov": "nov",
+        "Dec": "déc",
+        "Mon": "",
+        "Tue": "",
+        "Wed": "",
+        "Thu": "",
+        "Fri": "",
+        "Sat": "",
+        "Sun": ""
     }
+    article_date_separator_in_list = ", "
+    article_date_unwanted_words = ["CEST", "CET"]
     article_html_selector = ".item-page"
     article_file_selector = "a ::attr(href)"
 
