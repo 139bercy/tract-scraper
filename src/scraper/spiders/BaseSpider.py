@@ -9,6 +9,8 @@ from scraper.utils.urlUtils import clean_url
 from urllib.parse import urljoin
 from scrapy.utils.project import get_project_settings
 import logging
+import pandas as pd
+
 
 settings = get_project_settings()
 
@@ -26,6 +28,7 @@ class BaseSpider(scrapy.Spider):
     article_date_format_in_list = None
     article_date_separator_in_list = None
     article_date_term_in_list = None
+    article_date_unwanted_words = None
     article_count = 0
 
     article_html_selector = None
@@ -47,7 +50,7 @@ class BaseSpider(scrapy.Spider):
             article_date_separator_in_list,
             article_date_term_in_list
         """
-        date = None
+        datee = None
         if isinstance(self.article_date_selector_in_list, list):
             date_parts = []
             for date_selector in self.article_date_selector_in_list:
@@ -56,20 +59,22 @@ class BaseSpider(scrapy.Spider):
                     for term in self.article_date_term_in_list:
                         date_part = date_part.replace(term, self.article_date_term_in_list[term]) 
                 date_parts.append(date_part)
-            date = ' '.join(date_parts)
+            datee = ' '.join(date_parts)
         else:
-            date = container.css(self.article_date_selector_in_list).get()
-            if date is not None and self.article_date_term_in_list is not None:
+            datee = container.css(self.article_date_selector_in_list).get()
+            if datee is not None and self.article_date_term_in_list is not None:
                 for term in self.article_date_term_in_list:
-                    date = date.replace(term, self.article_date_term_in_list[term])
-
-        if date is None or date.isspace():
+                    datee = datee.replace(term, self.article_date_term_in_list[term])
+        if datee is None or datee.isspace():
             return None
 
-        date_str = str(date.encode('utf-8').decode('utf-8')).strip()
+        date_str = str(datee.encode('utf-8').decode('utf-8')).strip()
         if self.article_date_separator_in_list is not None:
             date_str = date_str.split(self.article_date_separator_in_list)[-1].strip()
-        return datetime.strptime(date_str, self.article_date_format_in_list).date()
+        if self.article_date_unwanted_words is not None:
+            for word in self.article_date_unwanted_words:
+                date_str = date_str.replace(word, "")
+        return pd.to_datetime(date_str)
 
     def parse_article_url_in_list(self, response, container):
         url = container.css(self.article_link_selector_in_list).get()
