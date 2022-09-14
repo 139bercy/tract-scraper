@@ -74,7 +74,7 @@ class BaseSpider(scrapy.Spider):
         if self.article_date_unwanted_words is not None:
             for word in self.article_date_unwanted_words:
                 date_str = date_str.replace(word, "")
-        return pd.to_datetime(date_str)
+        return pd.to_datetime(date_str, format=self.article_date_format_in_list)
 
     def parse_article_url_in_list(self, response, container):
         url = container.css(self.article_link_selector_in_list).get()
@@ -138,8 +138,8 @@ class BaseSpider(scrapy.Spider):
         containers = response.css(self.article_selector_in_list)
         logger.info(f'{len(containers)} articles found in {response.url}')
         missing_date = 0
-        article_date = date.today()
-        min_date = article_date - relativedelta(weeks=settings.get('WEEKS_TO_SCRAP'))
+        article_date = pd.to_datetime("today").strftime("%m/%d/%Y")  # date.today()
+        min_date = pd.to_datetime(article_date) - relativedelta(weeks=settings.get('WEEKS_TO_SCRAP'))
         if not containers:
             self.logger.warning(f"No articles found on the page {self.name}, wrong html selector ?")
         for container in containers:
