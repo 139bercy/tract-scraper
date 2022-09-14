@@ -136,7 +136,7 @@ class BaseSpider(scrapy.Spider):
     def parse(self, response):
         self.logger.info(f"Starting to parse {response.url}")
         containers = response.css(self.article_selector_in_list)
-        logger.info(f'{len(containers)} articles found in {response.url}')
+        self.logger.info(f'{len(containers)} articles found in {response.url}')
         missing_date = 0
         article_date = pd.to_datetime("today")  # date.today()
         min_date = pd.to_datetime(article_date) - relativedelta(weeks=settings.get('WEEKS_TO_SCRAP'))
@@ -165,7 +165,7 @@ class BaseSpider(scrapy.Spider):
                     }
 
                 if self.article_file_selector is None:
-                    logger.info(f'No file selector for {response.url}')
+                    self.logger.info(f'No file selector for {response.url}')
                     return None
 
                 file_relative_urls = container.css(self.article_file_selector).getall()
@@ -183,7 +183,7 @@ class BaseSpider(scrapy.Spider):
                                      meta=article_meta)
 
         if missing_date > 0:
-            logger.info(f'{missing_date} articles not scrapped because the date missing')
+            self.logger.info(f'{missing_date} articles not scrapped because the date missing')
 
         if article_date is not None and article_date > min_date:
             next_url = None
