@@ -138,7 +138,7 @@ class BaseSpider(scrapy.Spider):
         containers = response.css(self.article_selector_in_list)
         logger.info(f'{len(containers)} articles found in {response.url}')
         missing_date = 0
-        article_date = pd.to_datetime("today").strftime("%d/%m/%Y")  # date.today()
+        article_date = pd.to_datetime("today")  # date.today()
         min_date = pd.to_datetime(article_date) - relativedelta(weeks=settings.get('WEEKS_TO_SCRAP'))
         if not containers:
             self.logger.warning(f"No articles found on the page {self.name}, wrong html selector ?")
