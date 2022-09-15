@@ -147,6 +147,10 @@ workflows:
       - submit:
           requires:
             - process
+            filters:
+              branches:
+                only:
+                  - main
   daily-data:
     jobs:
       - build
