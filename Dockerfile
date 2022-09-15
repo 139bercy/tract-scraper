@@ -9,7 +9,7 @@ ENV LC_ALL fr_FR.UTF-8
 
 COPY requirements.txt /home/bercy/track-scraper/requirements.txt
 WORKDIR /home/bercy/track-scraper/
-ENV pip install -r requirements.txt
+RUN pip install -r requirements.txt
 
 COPY . /home/bercy/track-scraper/
 
