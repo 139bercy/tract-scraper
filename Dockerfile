@@ -1,6 +1,7 @@
 FROM python:3.9
 
 RUN rm -f /var/cache/apt/archives/*.deb /var/cache/apt/archives/partial/*.deb /var/cache/apt/*.bin || true
+RUN apt-get clean
 RUN apt-get update
 RUN apt-get install -y locales
 RUN sed -i -e '/fr_FR.UTF-8/s/^# //g' /etc/locale.gen
