@@ -1,10 +1,10 @@
 FROM python:3.9
 
-RUN rm -f /var/cache/apt/archives/*.deb /var/cache/apt/archives/partial/*.deb /var/cache/apt/*.bin || true \
-    apt-get update && \
-    apt-get install -y locales && \
-    sed -i -e '/fr_FR.UTF-8/s/^# //g' /etc/locale.gen && \
-    dpkg-reconfigure --frontend=noninteractive locales
+RUN rm -f /var/cache/apt/archives/*.deb /var/cache/apt/archives/partial/*.deb /var/cache/apt/*.bin || true
+RUN apt-get update
+RUN apt-get install -y locales
+RUN sed -i -e '/fr_FR.UTF-8/s/^# //g' /etc/locale.gen
+RUN dpkg-reconfigure --frontend=noninteractive locales
 
 ENV LC_ALL fr_FR.UTF-8
 
