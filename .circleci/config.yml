@@ -3,11 +3,11 @@ version: 2.1
 jobs:
     build:
       docker:
-        - image: cimg/base:2021.10
+        - image: cimg/base:2023.06
       steps:
         - checkout
         - setup_remote_docker:
-            version: 20.10.7
+            version: 20.10.18
         - run:
             name: Displaying cache key
             command: echo $(find ./src -type f -exec md5sum {} \; | md5sum | cut -d' ' -f1)  > CACHE_KEY1
@@ -34,7 +34,7 @@ jobs:
 
     process:
       docker:
-        - image: cimg/base:2021.10
+        - image: cimg/base:2023.06
       steps:
         - checkout
         - run:
@@ -43,7 +43,7 @@ jobs:
               expr << pipeline.number >> - 1 > previous_pipeline
               expr << pipeline.number >> > current_pipeline
         - setup_remote_docker:
-            version: 20.10.7
+            version: 20.10.18
         - run:
             name: Setting up cache key
             command : echo $(find ./src -type f -exec md5sum {} \; | md5sum | cut -d' ' -f1)  > CACHE_KEY1
@@ -70,14 +70,14 @@ jobs:
             name: Putting archive directory in Docker archive volume
             command: |
                 docker-compose -f docker-compose.yml -p ci up --no-start track-scraper
-                docker cp ./downloads/. ci_track-scraper_1:/home/bercy/track-scraper/archives/ || true
-                docker cp ./archives/. ci_track-scraper_1:/home/bercy/track-scraper/archives/ || true
+                docker cp ./downloads/. ci-track-scraper-1:/home/bercy/track-scraper/archives/ || true
+                docker cp ./archives/. ci-track-scraper-1:/home/bercy/track-scraper/archives/ || true
                 docker-compose -f docker-compose.yml -p ci run --rm --entrypoint /bin/bash track-scraper -c "ls /home/bercy/track-scraper/archives" || true
         - run:
             name: Retrieving archived tracts from Docker archive volume
             command: |
                 rm -rf archives/ || true
-                docker cp ci_track-scraper_1:/home/bercy/track-scraper/archives/. ./archives/ || true
+                docker cp ci-track-scraper-1:/home/bercy/track-scraper/archives/. ./archives/ || true
                 rm -rf archived-tracts.zip || true
                 zip -r archived-tracts.zip archives
         - store_artifacts:
@@ -103,7 +103,7 @@ jobs:
             name: Retrieving downloaded tracts
             command: |
                 rm -rf downloads/ || true
-                docker cp ci_track-scraper_1:/home/bercy/track-scraper/downloads/. ./downloads/
+                docker cp ci-track-scraper-1:/home/bercy/track-scraper/downloads/. ./downloads/
                 rm -rf downloaded-tracts.zip || true
                 zip -r downloaded-tracts.zip downloads
         - store_artifacts:
