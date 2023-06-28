@@ -3,7 +3,7 @@ version: 2.1
 jobs:
     build:
       docker:
-        - image: cimg/base:2021.10
+        - image: cimg/base:2023.06
       steps:
         - checkout
         - setup_remote_docker:
@@ -34,7 +34,7 @@ jobs:
 
     process:
       docker:
-        - image: cimg/base:2021.10
+        - image: cimg/base:2023.06
       steps:
         - checkout
         - run:
