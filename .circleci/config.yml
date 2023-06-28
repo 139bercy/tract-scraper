@@ -76,6 +76,7 @@ jobs:
         - run:
             name: Retrieving archived tracts from Docker archive volume
             command: |
+                docker ps -a
                 rm -rf archives/ || true
                 docker cp ci_track-scraper_1:/home/bercy/track-scraper/archives/. ./archives/ || true
                 rm -rf archived-tracts.zip || true
