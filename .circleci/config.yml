@@ -43,7 +43,7 @@ jobs:
               expr << pipeline.number >> - 1 > previous_pipeline
               expr << pipeline.number >> > current_pipeline
         - setup_remote_docker:
-            version: 20.10.18
+            version: 20.10.24
         - run:
             name: Setting up cache key
             command : echo $(find ./src -type f -exec md5sum {} \; | md5sum | cut -d' ' -f1)  > CACHE_KEY1
